@@ -11,35 +11,34 @@ namespace Calcul
 
     class Main
     {
-
         public string Сalculate(numberСharacteristic fNumber, numberСharacteristic sNumber, int operationNumber)
-        {
-            string result;
-            StringBuilder res = new StringBuilder();
+        {            
+            StringBuilder result = new StringBuilder();
             switch (operationNumber) {
                 case 0:
-                    res.Append(Addition(fNumber, sNumber));
+                    result.Append(Addition(fNumber, sNumber));
                     break;
                 case 1:
-                    res.Append(Subtraction(fNumber, sNumber));
+                    result.Append(Subtraction(fNumber, sNumber));
                     break;
                 case 2:
-                    res.Append(Multiply(fNumber, sNumber));
-                    res = MathRound(res, fNumber.point_position, sNumber.point_position);
+                    result.Append(Multiply(fNumber, sNumber));                   
+                    decimal resultNumber = Math.Round(Decimal.Parse(result.ToString()), 2, 0);
+                    result.Length = 0;
+                    result.Append(resultNumber);
                     break;
                 case 3:
-                    res.Append(Divide(fNumber, sNumber));
-                    decimal ress = Math.Round(Decimal.Parse(res.ToString()),2,0);
-                    res.Length = 0;
-                    res.Append(ress);
-                    fNumber.point_position = FormatResultDivide(res);
+                    result.Append(Divide(fNumber, sNumber));
+                    decimal resNumber = Math.Round(Decimal.Parse(result.ToString()),2,0);
+                    result.Length = 0;
+                    result.Append(resNumber);
+                    fNumber.point_position = FormatResultDivide(result);
                     sNumber.point_position = 0;
                     break;
                 default:
-                    result = "";
                     break;
             }            
-            return FormatResult(res , fNumber.point_position , sNumber.point_position).ToString();           
+            return FormatResult(result , fNumber.point_position , sNumber.point_position).ToString();           
         }
 
         private StringBuilder Subtraction(numberСharacteristic fNumber, numberСharacteristic sNumber)
@@ -75,46 +74,16 @@ namespace Calcul
         }
 
         private StringBuilder FormatResultSpace(StringBuilder str , int pointPosition)
-        {
-            
+        {            
             for (int i = pointPosition - 3; i >= 0; i = i - 3)
             {
                 if((i - 1 >= 0 && str[i - 1] != '-'))
                 {
                     str.Insert(i, ' ');
                 }
-                    
-                
-
             }           
             return str;
-        }
-        
-        private StringBuilder MathRound(StringBuilder str, int pointPosition1, int pointPosition2)
-        {
-            StringBuilder result = new StringBuilder();
-            int res = pointPosition1 + pointPosition2;
-            decimal number = 0;
-            if (res == 3 )
-            {
-                if(str[str.Length - 1] >= 5)
-                {
-                    str.Remove(str.Length - 1, 1);
-                    number = decimal.Parse(str.ToString()) + decimal.One;
-                }
-                return result.Append(number);
-            }
-            if (res == 4 )
-            {
-                if(str[str.Length - 2] >= 5)
-                {
-                    str.Remove(str.Length - 2, 2);
-                    number = decimal.Parse(str.ToString()) + decimal.One;
-                }
-                return result.Append(number);
-            }            
-            return str;            
-        }
+        }            
 
         private StringBuilder FormatResult(StringBuilder str, int pointPosition1, int pointPosition2)
         {
@@ -151,8 +120,8 @@ namespace Calcul
 
         private int FormatResultDivide (StringBuilder str)
         {
-            str.Replace(',','.');
-            for(int i = str.Length - 1 , point = 0; i >= str.Length - 3; i-- , point++)
+            str.Replace(',','.');           
+            for(int i = str.Length - 1 , point = 0; i >= str.Length - 3 && i >= 0 ; i-- , point++)
             {
                 if(str[i] == '.')
                 {

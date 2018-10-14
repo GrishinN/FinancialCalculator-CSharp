@@ -35,8 +35,7 @@ namespace Calcul
             int operation;
             numberСharacteristic fNumber;
             numberСharacteristic sNumber;
-
-            
+        
             fNumber.value = new StringBuilder(firstNumber.Text);
             sNumber.value = new StringBuilder(secondNumber.Text);
             
